@@ -1,13 +1,10 @@
-package assign03;
+package assignments.assign03;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,8 +42,8 @@ class SimplePriorityQueueTest {
     private static SimplePriorityQueue<String> queueString;
     private static SimplePriorityQueue<Object> queueObj;
 
-    @BeforeAll
-    static void setUp()
+    @BeforeEach
+    void setUp()
     {
         // initialize all queues
         queuePrim = new SimplePriorityQueue<>();
@@ -85,6 +82,9 @@ class SimplePriorityQueueTest {
     void clear()
     {
         SimplePriorityQueue<Integer> clearTest = new SimplePriorityQueue<>();
+        clearTest.insertAll(Arrays.asList(1, 3, 4, 7, 8));
+        clearTest.clear();
+        assertTrue(clearTest.isEmpty());
     }
 
     @Test
@@ -98,7 +98,7 @@ class SimplePriorityQueueTest {
 
     // with primitive vars
 
-   @Test
+    @Test
     void findMaxPrim() {
         int test = 9;
         assertEquals(test, queuePrim.findMax());
@@ -129,35 +129,50 @@ class SimplePriorityQueueTest {
     @Test
     void containsPrim() {
         assertTrue(queuePrim.contains(3));
-        assertFalse(queuePrim.contains(10));  
+        assertFalse(queuePrim.contains(10));
     }
+
     // with Strings
 
     @Test
     void findMaxString() {
+        assertEquals("Zombie", queueString.findMax());
     }
 
     @Test
     void deleteMaxString() {
+        assertEquals("Zombie", queueString.deleteMax());
+        assertEquals("Vindicate",queueString.findMax());
     }
 
     @Test
     void insertString() {
+        queueString.insert("Zute");
+        assertEquals("Zute",queueString.findMax());
     }
 
     @Test
     void insertAllString() {
+        List<String> newString = Arrays.asList("Alpha","Beta");
+        queueString.insertAll(newString);
+        assertTrue(queueString.contains("Alpha"));
+        assertTrue(queueString.contains("Beta"));
+        assertEquals("Zombie", queueString.findMax());
     }
 
     @Test
     void containsString() {
-    
+        //False test case for queueString
+        assertFalse(queueString.contains("Omega"));
+        //True test case for queueString
+        assertTrue(queueString.contains("Zombie"));
     }
 
     // with objects
 
     @Test
     void findMaxObj() {
+        SimplePriorityQueue<Object> queue = new SimplePriorityQueue<>();
 
     }
 

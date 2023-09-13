@@ -1,12 +1,8 @@
-package assign03;
+package assignments.assign03;
 
-import jdk.jshell.spi.ExecutionControl;
-
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
-import java.util.Queue;
 
 public class SimplePriorityQueue<Type> implements PriorityQueue<Type> {
 
@@ -37,7 +33,7 @@ public class SimplePriorityQueue<Type> implements PriorityQueue<Type> {
             if(this.queue[mid] == null) return mid;
             int value = this.comparator == null ? ((Comparable<? super Type>)this.queue[mid]).compareTo(target) : this.comparator.compare(this.queue[mid], target);
             if(value == 0) return mid;
-            else if(value > 0) high = mid - 1;
+            else if(value < 0) high = mid - 1;
             else low = mid + 1;
         }
         return mid;
@@ -78,26 +74,21 @@ public class SimplePriorityQueue<Type> implements PriorityQueue<Type> {
     @Override
     public Type deleteMax() throws NoSuchElementException
     {
-        System.out.print(Arrays.toString(queue));
-        Type output = this.queue[0];
         if(this.isEmpty()) throw new NoSuchElementException();
-        int maxIndex = this.nonNullElements();
-        for(int i = 0; i < this.nonNullElements()-1;i++) 
+        Type output = this.queue[0];
+        for(int i = 0; i < this.size() - 1;i++)
         {
             this.queue[i] = this.queue[i+1];
-            
         }
         return output;
-        
     }
 
     private void shiftBack(int fromIndex)
     {
-        for(int i = this.nonNullElements() - 1; i > fromIndex; i--)
+        for(int i = this.queue.length - 1; i > 0; i--)
         {
-            if(this.queue[i] == null) continue;
-            this.queue[i + 1] = this.queue[i];
-            this.queue[i] = null;
+            if(this.queue[i - 1] == null) continue;
+            this.queue[i] = this.queue[i - 1];
         }
     }
 
@@ -136,7 +127,6 @@ public class SimplePriorityQueue<Type> implements PriorityQueue<Type> {
     public boolean contains(Type item)
     {
         return !this.isEmpty() && this.queue[this.binarySearch(item)] != null && this.queue[this.binarySearch(item)].equals(item);
-
     }
 
     @Override
@@ -156,8 +146,5 @@ public class SimplePriorityQueue<Type> implements PriorityQueue<Type> {
     public void clear()
     {
         this.queue = (Type[]) new Object[0];
-    }
-    public static void main(String[] args) {
-        
     }
 }

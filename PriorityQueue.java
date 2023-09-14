@@ -1,4 +1,4 @@
-package assignments.assign03;
+package assign03;
 
 import java.util.Collection;
 import java.util.NoSuchElementException;

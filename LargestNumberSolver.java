@@ -64,7 +64,11 @@ public class LargestNumberSolver {
     public static int findLargestInt(Integer[] arr) throws OutOfRangeException
     {
         BigInteger bigNum = findLargestNumber(arr);
-        if(bigNum.bitCount() > 32) throw new OutOfRangeException("int");
+        if(bigNum.compareTo(new BigInteger(String.valueOf(Integer.MAX_VALUE))) > 0 || 
+        bigNum.compareTo(new BigInteger(String.valueOf(Integer.MIN_VALUE))) < 0) {
+            throw new OutOfRangeException("int");
+        }
+
         return bigNum.intValue();
     }
     /*
@@ -99,7 +103,7 @@ public class LargestNumberSolver {
         Integer[][] sortList = list.toArray(new Integer[list.size()][]);
         insertionSort(sortList, customComparator);
 
-        return list.get(k);
+        return sortList[k];
     }
     
     /*
@@ -109,14 +113,19 @@ public class LargestNumberSolver {
      */
     public static BigInteger sum(List<Integer[]> list)
     {
-        BigInteger totalSum = BigInteger.ZERO;
+        List<Integer[]> deepCopyList = new ArrayList<>();
         for (Integer[] arr : list) {
-            BigInteger largestNumber = findLargestNumber(arr); // Assuming you've implemented this method
+            Integer[] arrCopy = Arrays.copyOf(arr, arr.length);
+            deepCopyList.add(arrCopy);
+        }
+        BigInteger totalSum = BigInteger.ZERO;
+        for (Integer[] arr : deepCopyList) {
+            BigInteger largestNumber = findLargestNumber(arr);
             totalSum = totalSum.add(largestNumber);
         }
-
         return totalSum;
     }
+    
     /*
      * readFile method that reads a file and returns a list of arrays of integers
      * @param: filename: the name of the file to be read
